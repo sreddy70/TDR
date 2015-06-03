@@ -1,0 +1,44 @@
+M2_HOME
+C:\Program Files\Apache Software Foundation\apache-maven-3.0.5
+
+M2
+%M2_HOME%\bin;
+
+PATH
+%M2%;
+=============================================================================================
+mvn archetype:generate -DgroupId=com.mycompany.app -DartifactId=my-app 
+-DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+
+
+mvn archetype:generate \
+    -DarchetypeGroupId=org.apache.maven.archetypes \
+    -DarchetypeArtifactId=maven-archetype-webapp \
+    -DgroupId=com.mycompany.app \
+    -DartifactId=my-webapp
+
+// for normal java project
+mvn eclipse:eclipse
+
+//for web applicatioin
+mvn eclipse:eclipse -Dwtpversion=2.0   
+=============================================================================================
+mvn --version
+
+mvn clean
+
+mvn compile
+
+mvn test
+
+mvn test-compile
+
+mvn package
+
+mvn tomcat:deploy
+
+mvn tomcat:redeploy
+
+mvn install
+
+mvn site

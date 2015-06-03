@@ -1,0 +1,8 @@
+<dwr>
+    <allow>
+    	<convert converter="bean" match="com.csc.dpull.bean.QueryBuilderForm"/>
+        <create creator="new" javascript="DatabaseUtility" class="com.csc.dpull.util.DatabaseUtility">
+            <include method="fetchTableRelations"/>
+        </create>
+  	</allow>
+</dwr>

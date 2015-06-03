@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="ISO-8859-1"?> 
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "/d:/org/apache/struts/resources/struts-config_1_2.dtd">
+ 
+
+<struts-config> 
+    
+<form-beans> 
+	
+		<form-bean name="LoginForm" type="com.csc.dpull.bean.LoginForm" />
+		<form-bean name="QueryBuilderForm" type="com.csc.dpull.bean.QueryBuilderForm"/>
+		<form-bean name="LockRecordsForm" type="com.csc.dpull.bean.LockRecordsForm"/>
+		<form-bean name="ForgotPwdForm" type="com.csc.dpull.bean.ForgotPwdForm"/>
+		<form-bean name="ExecuteQueryForm" type="com.csc.dpull.bean.ExecuteQueryForm"/>
+		<form-bean name="ColumnDescForm" type="com.csc.dpull.bean.ColumnDescForm"/>
+		<form-bean name="WhereClauseForm" type="com.csc.dpull.bean.WhereClauseForm"/>
+		<form-bean name="RefreshDatabase" type="com.csc.dpull.bean.RefreshDatabase"/>
+		<form-bean name="MailReportForm" type="com.csc.dpull.bean.MailReportForm"/>
+		<form-bean name="ETLProcessForm" type="com.csc.dpull.bean.ETLProcessForm"/>
+		
+		
+</form-beans> 
+ 
+    
+<action-mappings> 
+
+
+<action path="/login" 
+		type="com.csc.dpull.actions.LoginAction" 
+		name="LoginForm"
+        scope="session"   
+		input="/login.jsp">
+<forward name="loginSuccess" path="/jsp/queryBuilder.jsp" />
+<forward name="loginFailure" path="/login.jsp" />
+</action>
+
+<action path="/forgotPwdLink" 
+		type="com.csc.dpull.actions.LinksAction" 
+		name="LoginForm"
+		scope="request"   
+		input="/login.jsp">
+<forward name="FwdPwdLink" path="/jsp/forgotPwd.jsp" />
+</action>
+
+<action path="/getPwd" 
+		type="com.csc.dpull.actions.ForgotPwdAction" 
+		name="ForgotPwdForm"
+		input="/jsp/forgotPwd.jsp">
+<forward name="success" path="/jsp/forgotPwd.jsp" />
+<forward name="failure" path="/jsp/forgotPwd.jsp" />
+</action>
+
+<action path="/queryBuilder" 
+		type="com.csc.dpull.actions.QueryBuilderAction" 
+		name="QueryBuilderForm"
+        scope="session"   
+		input="/jsp/queryBuilder.jsp">
+<forward name="querySuccess" path="/jsp/DisplayResultSet.jsp"/>
+<forward name="queryFailure" path="/jsp/DisplayResultSet.jsp" />
+</action>
+
+<action path="/lockRecods" 
+		type="com.csc.dpull.actions.LockRecordsAction" 
+		name="LockRecordsForm"
+        scope="session"   
+		input="/jsp/DisplayResultSet.jsp">
+<forward name="lockSuccess" path="/jsp/DisplayResultSet.jsp"/>
+</action>
+
+<action path="/showColDesc"  
+		type="com.csc.dpull.actions.LinksAction" 
+		name="ColumnDescForm"
+		scope="session"   
+		parameter="actionType">
+<forward name="showColDescPage" path="/jsp/showColDescription.jsp" />
+<forward name="failure" path="/jsp/failure.jsp"/>
+</action>
+<action path="/showColumns"  
+		type="com.csc.dpull.actions.ColumnDescAction" 
+		name="ColumnDescForm"
+		scope="session"   
+		parameter="actionType">
+<forward name="showColDescPage" path="/jsp/showColDescription.jsp" />
+<forward name="failure" path="/jsp/failure.jsp"/>
+</action>
+
+<action path="/queryBuilderPage"  
+		type="com.csc.dpull.actions.LinksAction" 
+		scope="request"   
+		parameter="actionType">
+<forward name="success" path="/jsp/queryBuilder.jsp" />
+<forward name="failure" path="/jsp/failure.jsp"/>
+</action>
+
+<action path="/queryHistory"  
+		type="com.csc.dpull.actions.LinksAction" 
+		scope="request"   
+		parameter="actionType">
+<forward name="queryHistoryPage" path="/jsp/queryHistory.jsp" />
+<forward name="failure" path="/jsp/failure.jsp"/>
+</action>
+
+<action path="/backButton" 
+		type="com.csc.dpull.actions.LinksAction" 
+		scope="request"
+		parameter="actionType">
+<forward name="success" path="/jsp/queryBuilder.jsp" />
+</action>
+
+<action path="/executeQuery" 
+		type="com.csc.dpull.actions.ExecuteQueryAction" 
+		name="ExecuteQueryForm"
+        scope="session"   
+		input="/jsp/queryHistory.jsp">
+<forward name="querySuccess" path="/jsp/DisplayResultSet.jsp"/>
+<forward name="queryFailure" path="/failure.jsp" />
+</action>
+
+<action path="/whereClause" 
+		type="com.csc.dpull.actions.WhereClauseAction" 		
+        name="WhereClauseForm"
+        scope="request"   
+		input="/jsp/whereClause.jsp"> 
+<forward name="Success" path="/jsp/whereClause.jsp" />
+<forward name="failure" path="/jsp/whereClause.jsp" />
+</action>
+
+<action path="/refreshDatabase" 
+		type="com.csc.dpull.actions.LinksAction" 		
+        scope="session"
+        name="ETLProcessForm"   
+		parameter="actionType">
+<forward name="querySuccess" path="/jsp/ETLProcessStatus.jsp"/>
+<forward name="queryFailure" path="/failure.jsp" />
+</action>
+
+<action path="/mailFile"  
+		type="com.csc.dpull.actions.MailReportAction" 
+		 name="MailReportForm"
+        scope="request">
+<forward name="success" path="/jsp/mailAttachment.jsp" />
+<forward name="failure" path="/jsp/mailAttachment.jsp"/>
+</action>
+
+
+<action path="/etlProcess"  
+		type="com.csc.dpull.actions.ETLProcessAction" 
+		 name="ETLProcessForm"
+        scope="session">
+<forward name="success" path="/jsp/ETLProcessStatus.jsp" />
+<forward name="failure" path="/jsp/ETLProcessStatus.jsp"/>
+</action>
+
+
+<action path="/reloadDB"    
+                type="com.csc.dpull.actions.ETLProcessAction"  
+                name="ETLProcessForm"    
+                scope="session"  
+                parameter="actionType"  
+                input="/ETLProcessStatus.jsp" >   
+           <forward name="success" path="/jsp/ETLProcessStatus.jsp" />
+			<forward name="failure" path="/jsp/ETLProcessStatus.jsp"/>  
+</action>
+
+</action-mappings> 
+ 
+</struts-config>

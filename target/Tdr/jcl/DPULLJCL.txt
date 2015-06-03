@@ -1,0 +1,39 @@
+//Y00021CL JOB (08939802),'UNLOAD',CLASS=8,NOTIFY=Y00021,                             
+// TIME=15,MSGCLASS=9,MSGLEVEL=(1,1)                                    
+//********************************************************************* 
+//* STEP01- UNLOAD ROWS FROM DCTSN_STATEMENT                            
+//*         USING DSNTIAUL                                              
+//********************************************************************* 
+//STEP01   EXEC DSNUPROC,UID='TDRUNLOD',UTPROC='',SYSTEM='DB2'          
+//SYSPRINT DD SYSOUT=*                                                  
+//STEPLIB  DD DSN=DNDDB2.DB2.SDSNLOAD,DISP=SHR                          
+//SYSIN    DD *                                                         
+  LISTDEF  UNLDLIST                                                     
+           INCLUDE  TABLESPACE $DbName.*                                                    
+  TEMPLATE UNLDDS   DSN PRD.TDR.&USERID..SMPLUNLD.&TS..$Date          
+           UNIT SYSDA  DISP (NEW,CATLG,CATLG) SPACE (1,1) CYL           
+  TEMPLATE PUNCHDS  DSN PRD.TDR.&USERID..SMPLPNCH.&TS..$Date          
+           UNIT SYSDA  DISP (NEW,CATLG,CATLG) SPACE (1,1) CYL           
+  UNLOAD LIST UNLDLIST DELIMITED COLDEL '#'                             
+    PUNCHDDN PUNCHDS                                                    
+    UNLDDN   UNLDDS                                                     
+/*                                                                      
+//********************************************************************* 
+//* STEP02- UNLOAD ROWS FROM DCTSN_STATEMENT                            
+//*         USING DSNTIAUL                                              
+//* PARAMETERS TO BE PASSED ARE                                         
+//* DATE IN FORMAT MMDDYY PREFIXED WITH D FOR EX- D081110A               
+//* IP ADDRESS OF YOUR LOCAL DESKTOP OR SERVER                          
+//* LOGON ID OF THE FTP SERVER                                          
+//* PASSWORD OF THE FTP SERVER                                          
+//********************************************************************* 
+//STEP02    EXEC ISPF                                                   
+//SYSEXEC   DD DSN=PRD.DPULL.PGMLIB,DISP=SHR                            
+//SYSPROC   DD DSN=PRD.DPULL.PGMLIB,DISP=SHR                            
+//SYSTSIN   DD *                                                        
+  ISPSTART CMD(EX 'PRD.DPULL.PGMLIB(DPULL1)'  -                         
+  '$Date $IPAddress $FTPUserId $FTPPassword'                                   
+/*                                                                      
+//SYSTSPRT  DD SYSOUT=*                                                 
+//SYSPRINT  DD SYSOUT=*                                                 
+//*                                                                     
